@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+import nmap
+
+scanner = nmap.PortScanner()
+
+print("\nLearning Python with Python-Nmap")
+print("<------------------------------------------------------------>")
+
+ip_address = input("Please enter a host: \n")
+print(ip_address, "selected.")
+type(ip_address)
+
+response = input("""\nEnter the type of scan you'd like to run
+1. SYN ACK
+2. UDP
+3. Comprehensive\n\n""")
+print(response, "selected.")
+print("\nNmap scan results:")
+print('<--------------------------->')
+print("Host : ", ip_address)
+
+if response == "1":
+    scanner.scan(ip_address, "1-1024", "-v -sS")
+    print("State : ", scanner[ip_address].state())
+    print(scanner.scaninfo())
+    print("Open Ports: ", scanner[ip_address]["tcp"].keys())
+
+elif response == "2":
+    scanner.scan(ip_address, "1-1024", "-v -sU")
+    print("State : ", scanner[ip_address].state())
+    print(scanner.scaninfo())
+    print(scanner[ip_address].all_protocols())
+    print("Open Ports: ", scanner[ip_address]["udp"].keys())
+
+elif response == "3":
+    print('<---------->')
+    scanner.scan(ip_address, "1-1024", "-v -sS -sV -sC -A -O")
+    print("State : ", scanner[ip_address].state())
+    print(scanner.scaninfo())
+    print("Open Ports: ", scanner[ip_address]["tcp"].keys())
+
+elif response >= "4":
+    print("Enter a valid option")
+
+print('<--------------------------->')

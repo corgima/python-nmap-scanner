@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 import nmap
+import pyfiglet
 
 scanner = nmap.PortScanner()
+nmap_stuff = pyfiglet.figlet_format("corgi + nmap", font = "slant")
 
+print(nmap_stuff)
 print("\nLearning Python with Python-Nmap")
 print("<------------------------------------------------------------>")
 
@@ -12,9 +15,9 @@ print(ip_address, "selected.")
 type(ip_address)
 
 response = input("""\nEnter the type of scan you'd like to run
-1. SYN ACK
-2. UDP
-3. Comprehensive\n\n""")
+1. SYN/ACK
+2. Comprehensive
+3. UDP\n\n""")
 print(response, "selected.")
 print("\nNmap scan results:")
 print('<--------------------------->')
@@ -27,15 +30,14 @@ if response == "1":
     print("Open Ports: ", scanner[ip_address]["tcp"].keys())
 
 elif response == "2":
-    scanner.scan(ip_address, "1-1024", "-v -sU")
+    scanner.scan(ip_address, "1-1024", "-v -sS -sV -sC -A -O")
     print("State : ", scanner[ip_address].state())
     print(scanner.scaninfo())
     print(scanner[ip_address].all_protocols())
     print("Open Ports: ", scanner[ip_address]["udp"].keys())
 
 elif response == "3":
-    print('<---------->')
-    scanner.scan(ip_address, "1-1024", "-v -sS -sV -sC -A -O")
+    scanner.scan(ip_address, "1-1024", "-v -sU")
     print("State : ", scanner[ip_address].state())
     print(scanner.scaninfo())
     print("Open Ports: ", scanner[ip_address]["tcp"].keys())
